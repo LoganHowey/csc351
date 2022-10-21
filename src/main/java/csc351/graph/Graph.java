@@ -64,11 +64,42 @@ public class Graph {
     }
 
     private void traverseDepthFirst(Integer vertex, GraphVisitor visitor, GraphVisitor.SearchContext context) {
-        // todo implement this
+        context.setDiscovered(vertex);
+        context.updateEntryTime(vertex);
+        visitor.visitVertexEarly(vertex, context);
+        for (EdgeNode edgeNode : edges.getOrDefault(vertex, new ArrayList<>())) {
+            if (!context.discovered(edgeNode.y)){
+                context.setParent(edgeNode.y, vertex);
+                visitor.visitEdge(vertex, edgeNode.y, context);
+                traverseDepthFirst(edgeNode.y, visitor, context);
+            }
+            else if(!context.processed(edgeNode.y) || directed){
+                visitor.visitEdge(vertex, edgeNode.y, context);
+            }
+
+            visitor.visitVertexLate(vertex, context);
+            context.updateExitTime(vertex);
+            context.setProcessed(vertex);
+        }
+
     }
 
 
+
     public PrimResult prim(int start) {
+        EdgeNode p;
+        boolean intree[] = new boolean[100];
+        int distance[] = new int[100];
+        int v;
+        int w;
+        int weight;
+        int dist;
+
+        for (int i = 0; i <= vertices.size(); i++){
+            intree[i] = false;
+            distance[i] = 0;
+
+        }
         // todo implement this
         return new PrimResult(new HashMap<>(), new HashMap<>());
     }

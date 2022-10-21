@@ -3,10 +3,12 @@ package csc351.graph;
 public class Main {
     public static void main(String[] args) {
         Graph graph = new Graph(false);
-        graph.insertEdge(0, 1);
         graph.insertEdge(1, 2);
-        graph.insertEdge(1, 3);
+        graph.insertEdge(2, 3);
+        graph.insertEdge(3, 4);
+        graph.insertEdge(3, 5);
+        graph.insertEdge(4, 5);
 
-        System.out.println(graph);
+        graph.traverseDepthFirst(1, new PrintGraphVisitor());
     }
 }
