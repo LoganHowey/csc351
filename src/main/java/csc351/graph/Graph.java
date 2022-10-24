@@ -1,5 +1,7 @@
 package csc351.graph;
 
+import javax.naming.Context;
+import java.lang.reflect.Type;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -43,8 +45,7 @@ public class Graph {
     }
 
     public void traverseBreadthFirst(int startingVertex, GraphVisitor visitor) {
-//      todo implement this
-
+        Queue<Type> q = new LinkedList<>();
     }
 
     public void traverseDepthFirst(int startingVertex, GraphVisitor visitor) {
@@ -88,8 +89,8 @@ public class Graph {
 
     public PrimResult prim(int start) {
         EdgeNode p;
+        PrimResult primResult = new PrimResult(new HashMap<>(), new HashMap<>());
         boolean intree[] = new boolean[100];
-        int distance[] = new int[100];
         int v;
         int w;
         int weight;
@@ -97,11 +98,39 @@ public class Graph {
 
         for (int i = 0; i <= vertices.size(); i++){
             intree[i] = false;
-            distance[i] = 0;
+            primResult.distance.put(i, 100);
+            primResult.parents.put(i, -1);
+        }
 
+        primResult.distance.put(start, 100);
+        v = start;
+
+        while (!intree[v]){
+            intree[v] = true;
+//            p = edges.get(v);
+//            while (p != null){
+//                w = p.y;
+            w = 0;
+//                weight = p.weight;
+                weight = 0;
+                if ((primResult.distance.get(w) > weight) && !intree[w]){
+                    primResult.distance.put(w, weight);
+                    primResult.parents.put(w, v);
+                }
+//                p = p.next;
+//            }
+            v = 1;
+            dist = 100;
+            for (int i = 1; i < vertices.size(); i++){
+                if ((!intree[i]) && (dist < primResult.distance.get(i))){
+                    dist = primResult.distance.get(i);
+                    v = i;
+                }
+            }
         }
         // todo implement this
         return new PrimResult(new HashMap<>(), new HashMap<>());
+
     }
 
     public List<EdgeNode> findEdges(int vertex){
@@ -149,3 +178,13 @@ public class Graph {
         }
     }
 }
+
+/*
+implimented
+[X] DepthFirst
+[] BreadthFirst
+[] Articulation Points
+[] Prims
+[X] Floyds
+[] All Paths
+ */

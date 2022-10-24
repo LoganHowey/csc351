@@ -42,6 +42,7 @@ public class ArticulationPointVisitor implements GraphVisitor {
         if (context.parent(context.parent(x)) < 1){
             if (treeOutDegree.getOrDefault(x,0) > 1){
                 System.out.printf("root articulation vertex: %d \n", x);
+                articulationPoints.add(x);
             }
             return;
         }
@@ -50,7 +51,7 @@ public class ArticulationPointVisitor implements GraphVisitor {
             System.out.printf("Parent articulation vertex: %d \n", context.parent(x));
             articulationPoints.add(context.parent(x));
         }
-        if (reachableAncestor.get(x) == x){
+        if (reachableAncestor.get(x)  == x){
             if (!context.isRoot(context.parent(x))){
                 System.out.printf("Bridge articulation parent vertex: %d \n", context.parent(x));
                 articulationPoints.add(context.parent(x));

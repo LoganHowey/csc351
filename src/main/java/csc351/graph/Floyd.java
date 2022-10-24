@@ -39,9 +39,20 @@ public class Floyd {
     }
 
     public void floyd() {
-//       todo implement floyd's algorithm
-//       Reminder need to prevent checking edges that don't exist
+        for (int k = 1; k <= vertices.size(); k++) {
+            for (int i = 1; i <= vertices.size(); i++) {
+                for (int j = 1; j <= vertices.size(); j++) {
+                    if (edgeExists(i,k) && edgeExists(k, j)) {
+                        int throughK = getWeight(i, k) + getWeight(k, j);
+                        if (throughK < getWeight(i, j)) {
+                            weights[i][j] = throughK;
+                        }
+                    }
+                }
+            }
+        }
     }
+//       Reminder need to prevent checking edges that don't exist
 
     public boolean edgeExists(int a, int b) {
         return weights[a][b] != Integer.MAX_VALUE;
