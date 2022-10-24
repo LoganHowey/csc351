@@ -39,7 +39,7 @@ public class ArticulationPointVisitor implements GraphVisitor {
         int timeV;
         int timeParent;
 
-        if (context.parent(x) < 1){
+        if (context.parent(context.parent(x)) < 1){
             if (treeOutDegree.getOrDefault(x,0) > 1){
                 System.out.printf("root articulation vertex: %d \n", x);
             }
