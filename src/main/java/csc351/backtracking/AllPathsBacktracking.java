@@ -2,40 +2,41 @@ package csc351.backtracking;
 
 import csc351.graph.Graph;
 
-import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class AllPathsBacktracking extends BackTracking<Integer> {
 
-    public AllPathsBacktracking() {super.maxCandidates = 100;}
+    private final HashMap<Integer, ArrayList<Graph.EdgeNode>> edges = new HashMap<>();
 
-    public int constructCandidates(int a[], int k, Integer input, int[] c){
+    public AllPathsBacktracking() {
+        super.maxCandidates = 100;
+    }
+
+    public int constructCandidates(int a[], int k, Integer input, int[] c) {
+        Graph graph = new Graph(false);
         boolean[] inSol = new boolean[maxCandidates];
-        Graph.EdgeNode p = new Graph.EdgeNode(0,0);
         int last;
 
-        for (int i = 1; i < maxCandidates; i++){
+        for (int i = 1; i < maxCandidates; i++) {
             inSol[i] = false;
         }
-        for (int i = 1; i < k; i++){
+        for (int i = 1; i < k; i++) {
             inSol[a[i]] = true;
         }
         int count;
-        if (k == 1){
+        if (k == 1) {
             c[0] = 1;
             count = 1;
-        }
-        else {
+        } else {
             count = 0;
-            last = a[k-1];
-            p = p;
-            while (p != null){
-                if (!inSol[p.y]){
-                    c[count] = p.y;
+            last = a[k - 1];
+            for (Graph.EdgeNode edgeNode : edges.getOrDefault(last, new ArrayList<>())) {
+                if (!inSol[edgeNode.y]) {
+                    c[count] = edgeNode.y;
                     count++;
                 }
-                p = p;
             }
-
         }
         return count;
     }
@@ -44,7 +45,7 @@ public class AllPathsBacktracking extends BackTracking<Integer> {
         return a[k] == input;
     }
 
-    protected void processSolution(int a[], int k){
+    protected void processSolution(int a[], int k) {
         k++;
     }
 

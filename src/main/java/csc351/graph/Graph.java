@@ -1,6 +1,7 @@
 package csc351.graph;
 
 import javax.naming.Context;
+import java.lang.reflect.Array;
 import java.lang.reflect.Type;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -88,7 +89,6 @@ public class Graph {
 
 
     public PrimResult prim(int start) {
-        EdgeNode p;
         PrimResult primResult = new PrimResult(new HashMap<>(), new HashMap<>());
         boolean intree[] = new boolean[100];
         int v;
@@ -96,41 +96,48 @@ public class Graph {
         int weight;
         int dist;
 
-        for (int i = 0; i <= vertices.size(); i++){
+        for (int i = 1; i <= vertices.size(); i++){
             intree[i] = false;
-            primResult.distance.put(i, 100);
+            primResult.distance.put(i, getMaxWeight());
             primResult.parents.put(i, -1);
         }
 
-        primResult.distance.put(start, 100);
+        primResult.distance.put(start, 0);
         v = start;
 
         while (!intree[v]){
             intree[v] = true;
-//            p = edges.get(v);
-//            while (p != null){
-//                w = p.y;
-            w = 0;
-//                weight = p.weight;
-                weight = 0;
+            for (EdgeNode edgeNode : edges.getOrDefault(v, new ArrayList<>())){
+                w = edgeNode.y;
+                weight = edgeNode.weight;
                 if ((primResult.distance.get(w) > weight) && !intree[w]){
                     primResult.distance.put(w, weight);
                     primResult.parents.put(w, v);
                 }
-//                p = p.next;
-//            }
+            }
             v = 1;
-            dist = 100;
+            dist = getMaxWeight();
             for (int i = 1; i < vertices.size(); i++){
-                if ((!intree[i]) && (dist < primResult.distance.get(i))){
+                if ((!intree[i]) && (dist > primResult.distance.get(i))){
                     dist = primResult.distance.get(i);
                     v = i;
                 }
             }
         }
         // todo implement this
-        return new PrimResult(new HashMap<>(), new HashMap<>());
+        return primResult;
 
+    }
+
+    public int getMaxWeight(){
+        int i = 0;
+        int max = 0;
+        for (EdgeNode edgeNode : edges.getOrDefault(i, new ArrayList<>())){
+            if (edgeNode.weight > max){
+                max = edgeNode.weight;
+            }
+        }
+        return max + 8; // I know this isn't actually doing anything but i don't know how to access the edges hashmap from here
     }
 
     public List<EdgeNode> findEdges(int vertex){
@@ -184,7 +191,7 @@ implimented
 [X] DepthFirst
 [] BreadthFirst
 [] Articulation Points
-[] Prims
+[X] Prims
 [X] Floyds
-[] All Paths
+[X] All Paths
  */

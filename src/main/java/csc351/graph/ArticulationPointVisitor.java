@@ -54,7 +54,7 @@ public class ArticulationPointVisitor implements GraphVisitor {
         if (reachableAncestor.get(x)  == x){
             if (!context.isRoot(context.parent(x))){
                 System.out.printf("Bridge articulation parent vertex: %d \n", context.parent(x));
-                articulationPoints.add(context.parent(x));
+                articulationPoints.add((context.parent(x)));
             }
 
             if(treeOutDegree.getOrDefault(x, 0) > 0){
